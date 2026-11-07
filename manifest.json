@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "doublechckr",
+  "version": "0.2.0",
+  "description": "Double-checks your Gmail attachments before you hit Send.",
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": [
+        "vendor/pdfjs/pdf.min.js",
+        "vendor/pdfjs/pdf.worker.min.js",
+        "src/core/helpers.js",
+        "src/core/gmail.js",
+        "src/core/drafts.js",
+        "src/pdf/pdf-reader.js",
+        "src/checks/rules.js",
+        "src/checks/check-draft.js",
+        "src/ui/toast.js",
+        "src/ui/status-badge.js",
+        "src/ui/scan-card.js",
+        "src/ui/warning-dialog.js",
+        "src/capture/attachments.js",
+        "src/send/send-guard.js",
+        "src/main.js"
+      ],
+      "css": [
+        "src/styles/theme.css",
+        "src/styles/toast.css",
+        "src/styles/badge.css",
+        "src/styles/scan-card.css",
+        "src/styles/warning.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

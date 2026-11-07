@@ -1,0 +1,68 @@
+/* Shared colors and animations. Every doublechckr class and variable starts
+   with "dc-" so nothing clashes with Gmail's own styles. */
+
+:root {
+  --dc-font: "Google Sans", Roboto, Arial, sans-serif;
+  --dc-ink: #202124;
+  --dc-muted: #5f6368;
+  --dc-line: #dadce0;
+  --dc-surface: #ffffff;
+  --dc-surface-2: #f8f9fa;
+  --dc-blue: #1a73e8;
+  --dc-blue-bg: #e8f0fe;
+  --dc-green: #188038;
+  --dc-green-bg: #e6f4ea;
+  --dc-red: #d93025;
+  --dc-red-bg: #fce8e6;
+  --dc-amber: #b06000;
+  --dc-amber-bg: #fef7e0;
+  --dc-laser: #00e5ff;
+  --dc-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes dc-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes dc-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dc-pop {
+  0% { transform: scale(0.4); }
+  70% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+@keyframes dc-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-3px); }
+  40%, 80% { transform: translateX(3px); }
+}
+
+@keyframes dc-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dc-fade-out {
+  to { opacity: 0; transform: translateY(8px); }
+}
+
+@keyframes dc-pulse {
+  0% { box-shadow: 0 0 0 0 currentColor; }
+  100% { box-shadow: 0 0 0 8px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class^="dc-"], [class^="dc-"]::before, [class^="dc-"]::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

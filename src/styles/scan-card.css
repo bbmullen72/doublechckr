@@ -1,0 +1,146 @@
+/* The card that appears while a PDF is being read. */
+
+.dc-scan {
+  position: fixed;
+  z-index: 2147483646;
+  box-sizing: border-box;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--dc-shadow);
+  color: var(--dc-ink);
+  font: 13px/1.4 var(--dc-font);
+  animation: dc-rise 0.3s ease-out;
+}
+
+.dc-scan.is-leaving {
+  animation: dc-fade-out 0.3s ease-in forwards;
+}
+
+.dc-scan-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--dc-blue);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dc-scan[data-result="verified"] .dc-scan-header { color: var(--dc-green); }
+.dc-scan[data-result="issues"] .dc-scan-header { color: var(--dc-red); }
+.dc-scan[data-result="scanned"] .dc-scan-header,
+.dc-scan[data-result="error"] .dc-scan-header { color: var(--dc-amber); }
+
+.dc-scan-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: dc-pulse 1.2s ease-out infinite;
+}
+
+.dc-scan-file {
+  margin: 4px 0 10px;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The page preview with the scanning line. */
+.dc-scan-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 120px;
+  overflow: hidden;
+  border: 1px solid var(--dc-line);
+  border-radius: 8px;
+  background: var(--dc-surface-2);
+}
+
+.dc-scan-page {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.dc-scan-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--dc-laser), transparent);
+  box-shadow: 0 0 14px 5px rgba(0, 229, 255, 0.55);
+  animation: dc-sweep 1.3s ease-in-out infinite alternate;
+}
+
+/* A faint glow trailing behind the line. */
+.dc-scan-laser::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  height: 40px;
+  background: linear-gradient(to top, rgba(0, 229, 255, 0.18), transparent);
+}
+
+.dc-scan[data-result] .dc-scan-laser { display: none; }
+
+@keyframes dc-sweep {
+  from { top: 0; }
+  to { top: calc(100% - 3px); }
+}
+
+/* The step checklist. */
+.dc-scan-steps {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dc-scan-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  color: var(--dc-muted);
+  animation: dc-rise 0.25s ease-out;
+}
+
+.dc-scan-step::before {
+  content: "";
+  display: grid;
+  place-items: center;
+  flex: none;
+  box-sizing: border-box;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--dc-blue);
+  border-right-color: transparent;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  animation: dc-spin 0.8s linear infinite;
+}
+
+.dc-scan-step.is-done { color: var(--dc-ink); }
+.dc-scan-step.is-done::before {
+  content: "✓";
+  border: none;
+  color: var(--dc-green);
+  animation: dc-pop 0.3s ease-out;
+}
+
+.dc-scan-step.is-failed::before {
+  content: "!";
+  border: none;
+  color: var(--dc-amber);
+  animation: none;
+}

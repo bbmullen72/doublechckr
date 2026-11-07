@@ -1,0 +1,16 @@
+/* The small message in the bottom-left corner. */
+
+.dc-toast {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2147483647;
+  max-width: 360px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--dc-ink);
+  color: #fff;
+  font: 14px var(--dc-font);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: dc-rise 0.2s ease-out;
+}

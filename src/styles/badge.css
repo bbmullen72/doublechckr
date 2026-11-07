@@ -1,0 +1,82 @@
+/* The live badge next to Gmail's Send button. */
+
+.dc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  padding: 5px 10px 5px 8px;
+  border: 1px solid var(--dc-line);
+  border-radius: 999px;
+  background: var(--dc-surface);
+  color: var(--dc-muted);
+  font: 500 12px/1 var(--dc-font);
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: default;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.dc-badge-icon {
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Watching: a soft breathing dot. */
+.dc-badge[data-state="watching"] .dc-badge-icon {
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+  background: var(--dc-blue);
+  animation: dc-breathe 2.4s ease-in-out infinite;
+}
+
+/* Checking: a spinner. */
+.dc-badge[data-state="checking"] {
+  border-color: #d2e3fc;
+  background: var(--dc-blue-bg);
+  color: var(--dc-blue);
+}
+.dc-badge[data-state="checking"] .dc-badge-icon {
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: dc-spin 0.8s linear infinite;
+}
+
+/* Verified: a green check that pops in. */
+.dc-badge[data-state="verified"] {
+  border-color: #ceead6;
+  background: var(--dc-green-bg);
+  color: var(--dc-green);
+}
+.dc-badge[data-state="verified"] .dc-badge-icon {
+  background: var(--dc-green);
+  color: #fff;
+  animation: dc-pop 0.35s ease-out;
+}
+
+/* Issues: red, shakes once, clickable. */
+.dc-badge[data-state="issues"] {
+  border-color: #fad2cf;
+  background: var(--dc-red-bg);
+  color: var(--dc-red);
+  cursor: pointer;
+  animation: dc-shake 0.4s ease-in-out;
+}
+.dc-badge[data-state="issues"] .dc-badge-icon {
+  background: var(--dc-red);
+  color: #fff;
+}
+
+/* Gmail's Send button while there's a problem. */
+.dc-send-blocked {
+  background-color: var(--dc-red) !important;
+  box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.25) !important;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
