@@ -1,0 +1,67 @@
+<!doctype html>
+<!-- A 20-page GullHacks organizer handbook for testing vision RAG on a long
+     document. The event dates appear ONLY on page 15, as a picture (the venue
+     confirmation): "November 21–23". No text page mentions the dates.
+     Pages 2–4 are picture-only decoys, so a "first few pictures" rule would
+     never reach page 15. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="doc.css">
+  <style>
+    .picture-page { padding: 0; }
+    .picture-page::before { display: none; }
+    .picture-page img { display: block; width: 100%; }
+    .cover { display: flex; flex-direction: column; justify-content: center; }
+    .cover h1 { font-size: 44px; color: var(--maroon); }
+    .cover .gull { width: 90px; height: 90px; margin-bottom: 24px; }
+    .cover .gull svg { width: 60px; }
+    .section-no { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+    .page-no { position: absolute; right: 0.9in; bottom: 0.5in; font-size: 10px; color: #8c959f; }
+    .page p { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="pages"></div>
+
+  <script>
+    const GULL = '<span class="gull"><svg viewBox="0 0 64 36" aria-hidden="true"><path d="M3 24 C 14 8, 25 8, 32 20 C 39 8, 50 8, 61 24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    const FOOTER = '<div class="footer"><span>GullHacks Organizer Handbook</span><span>Demo document for doublechckr · Not an official Salisbury University document</span></div>';
+
+    // Text sections, in order. None of them mention the event dates.
+    const SECTIONS = [
+      ["Welcome, organizers", ["Thanks for helping run GullHacks. This handbook covers everything from check-in to cleanup.", "Read the sections for your team closely, and skim the rest so you know who to ask."]],
+      ["Organizing teams", ["There are six teams: logistics, sponsorship, marketing, hacker experience, judging, and tech.", "Each team has a lead who joins the weekly all-hands call and posts updates in the team channel."]],
+      ["Code of conduct", ["GullHacks is a welcoming event for everyone. Harassment of any kind is not tolerated.", "If someone reports a problem, take it seriously, write down what happened, and find the on-call lead right away."]],
+      ["Check-in process", ["Hackers check in at the main lobby with a photo ID and their registration QR code.", "Hand each hacker a badge, a t-shirt in their size, and a printed copy of the hacker guide."]],
+      ["Food service", ["Meals are served in the dining hall. Label every tray with allergens before it goes out.", "Keep vegetarian, vegan, and gluten-free options on a separate table so they don't run out."]],
+      ["Overnight rules", ["Hack rooms stay open all night. Quiet rooms are available for anyone who wants to sleep.", "At least two organizers stay awake in shifts, and the lobby desk is never left empty."]],
+      ["Wi-Fi and power", ["The event network is separate from the campus network. Post the network name at every table.", "Each table gets two power strips. Report tripped breakers to the tech team, not facilities."]],
+      ["Mentors", ["Mentors sit at the help desk in two-hour shifts. Hackers request help through the help queue.", "Remind mentors to guide, not to write code for teams."]],
+      ["Workshops", ["Workshops run in Room 112 and the makerspace. Each one has an organizer as host.", "Hosts open the room 15 minutes early, test the projector, and count attendance."]],
+      ["Sponsor tables", ["Sponsors set up along the sponsor row. Each table gets a tablecloth, a power strip, and a sign.", "Check in with every sponsor once in the morning and once in the evening."]],
+            ["Judging", ["Judges score projects on idea, technical difficulty, design, and presentation.", "Each team gets five minutes to demo and two minutes for questions."]],
+      ["Prizes and awards", ["Prizes are handed out at the closing ceremony. Winners sign for their prize at the stage.", "Track prizes are announced before the overall winners."]],
+      ["Cleanup", ["Every organizer stays for the first hour of cleanup. Recycling goes in the blue bins.", "Return all borrowed furniture to the rooms listed on the floor plan."]],
+      ["Questions", ["When in doubt, ask in the organizer channel. Someone is always watching it during the event.", "Go Gulls!"]],
+    ];
+
+    const pages = [];
+    pages.push(`<div class="page cover">${GULL}<h1>GullHacks 2026<br>Organizer Handbook</h1><p>Salisbury University's student hackathon</p><p>For organizers only</p>${FOOTER}</div>`);
+    for (const img of ["packet-photos.png", "packet-floorplan.png", "packet-prizes.png"]) {
+      pages.push(`<div class="page picture-page"><img src="${img}" alt=""></div>`);
+    }
+    SECTIONS.forEach(([title, paras], i) => {
+      if (pages.length === 14) pages.push('<div class="page picture-page"><img src="packet-venue.png" alt=""></div>');
+      const n = pages.length + 1;
+      pages.push(
+        `<div class="page"><div class="section-no">Section ${i + 1}</div><h1>${title}</h1>` +
+          paras.map((p) => `<p>${p}</p>`).join("") +
+          `<div class="page-no">${n}</div></div>`
+      );
+    });
+    pages.push(`<div class="page"><h1>Contacts</h1><p>Logistics lead · Sponsorship lead · Tech lead · On-call lead</p><p>Phone numbers are in the organizer channel, not in this handbook.</p>${FOOTER}</div>`);
+    document.getElementById("pages").innerHTML = pages.join("");
+  </script>
+</body>
+</html>

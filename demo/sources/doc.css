@@ -1,0 +1,100 @@
+/* Shared look for the demo documents: Salisbury University maroon and gold.
+   Everything here is fake and made for testing doublechckr. */
+
+@page { size: Letter; margin: 0; }
+
+:root {
+  --maroon: #7a0f1d;
+  --gold: #f2b524;
+  --ink: #1f2328;
+  --muted: #5d6470;
+  --line: #ddd6d0;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font: 13px/1.55 "Helvetica Neue", Arial, sans-serif;
+}
+
+.page {
+  position: relative;
+  box-sizing: border-box;
+  width: 8.5in;
+  height: 11in;
+  padding: 0.8in 0.9in;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* Thin maroon and gold band across the top of each page. */
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, var(--maroon) 0 70%, var(--gold) 70%);
+}
+
+.letterhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid var(--maroon);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+/* The simple gull mark: a gold circle with a maroon gull. */
+.gull {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.gull svg { width: 30px; color: var(--maroon); }
+
+.company { font-size: 19px; font-weight: 700; letter-spacing: 0.02em; color: var(--maroon); }
+.company small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.doc-meta { text-align: right; font-size: 11px; color: var(--muted); }
+
+h1 { margin: 0 0 6px; font-size: 26px; }
+h2 { margin: 26px 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--maroon); }
+p { margin: 0 0 10px; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: #faf5ec; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+td.num, th.num { text-align: right; }
+tr.total td { font-weight: 700; border-top: 2px solid var(--maroon); border-bottom: none; }
+
+.banner {
+  margin-bottom: 22px;
+  padding: 10px 14px;
+  border: 2px solid var(--maroon);
+  background: #fbf3f3;
+  color: var(--maroon);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.signature { margin-top: 40px; display: flex; gap: 60px; }
+.signature div { flex: 1; padding-top: 6px; border-top: 1px solid var(--ink); font-size: 11px; color: var(--muted); }
+
+.footer {
+  position: absolute;
+  left: 0.9in;
+  right: 0.9in;
+  bottom: 0.5in;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #8c959f;
+}

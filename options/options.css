@@ -1,0 +1,126 @@
+/* The settings page. Shares colors and the mark with the rest of doublechckr. */
+
+body {
+  margin: 0;
+  padding: 48px 16px;
+  background: var(--dc-checker-faint), #f6f8fc;
+  color: var(--dc-ink);
+  font: 14px/1.5 var(--dc-font);
+}
+
+.card {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 520px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 32px 28px 28px;
+  border-radius: 14px;
+  background: var(--dc-surface);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.brand .dc-mark {
+  --dc-mark-size: 16px;
+}
+
+h1 {
+  margin: 18px 0 6px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.lead {
+  margin: 0 0 16px;
+  color: var(--dc-muted);
+}
+
+.steps {
+  margin: 0 0 22px;
+  padding-left: 20px;
+}
+
+.steps li + li {
+  margin-top: 4px;
+}
+
+label {
+  display: block;
+  margin: 14px 0 6px;
+  font-weight: 500;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--dc-line);
+  border-radius: 8px;
+  background: var(--dc-surface);
+  color: var(--dc-ink);
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--dc-blue);
+  outline-offset: -1px;
+}
+
+.key-row {
+  display: flex;
+  gap: 8px;
+}
+
+.hint {
+  margin: 6px 0 0;
+  color: var(--dc-muted);
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.btn {
+  padding: 9px 18px;
+  border: 1px solid var(--dc-line);
+  border-radius: 18px;
+  background: var(--dc-surface);
+  color: var(--dc-blue);
+  font: 500 14px var(--dc-font);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border-color: var(--dc-blue);
+  background: var(--dc-blue);
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.status {
+  min-height: 1.5em;
+  margin: 14px 0 0;
+}
+
+.status.is-ok { color: var(--dc-green); }
+.status.is-error { color: var(--dc-red); }
+.status.is-busy { color: var(--dc-blue); }
+
+.privacy {
+  margin: 22px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--dc-line);
+  color: var(--dc-muted);
+  font-size: 12px;
+}

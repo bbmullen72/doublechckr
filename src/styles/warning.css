@@ -14,12 +14,13 @@
 }
 
 .dc-box {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   max-width: 520px;
   max-height: 88vh;
   overflow-y: auto;
-  padding: 24px;
+  padding: 30px 24px 24px; /* extra top room for the checkered edge */
   border-radius: 14px;
   background: var(--dc-surface);
   color: var(--dc-ink);
@@ -28,11 +29,7 @@
 }
 
 .dc-brand {
-  color: var(--dc-red);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 .dc-title {
@@ -41,10 +38,6 @@
   font-weight: 500;
 }
 
-.dc-subtitle {
-  margin: 0 0 16px;
-  color: var(--dc-muted);
-}
 
 .dc-list {
   margin: 0 0 20px;
@@ -57,14 +50,68 @@
   border-top: 1px solid var(--dc-line);
 }
 
+/* Each problem is a <details>: click the title line to open or close it. */
+.dc-item-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.dc-item-heading::-webkit-details-marker {
+  display: none;
+}
+
+/* A small arrow after the tags: points right when closed, down when open. */
+.dc-item-heading::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+  border-right: 2px solid var(--dc-muted);
+  border-bottom: 2px solid var(--dc-muted);
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+}
+
+.dc-item-details[open] > .dc-item-heading::after {
+  transform: rotate(45deg);
+}
+
 .dc-item-title {
   font-size: 15px;
+}
+
+/* Marks the sensitive-document warning. */
+.dc-security-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--dc-red-bg);
+  color: var(--dc-red);
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .dc-item-detail {
   margin: 4px 0 0;
   color: var(--dc-muted);
+  font-size: 14px;
   line-height: 1.45;
+}
+
+/* A single problem's title as the headline, with its tags beside it. */
+.dc-title-single {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dc-title-single + .dc-item-body {
+  margin-bottom: 20px;
 }
 
 /* "Your email" vs "Attached PDF", side by side. */
@@ -103,22 +150,6 @@
   color: var(--dc-red);
 }
 
-/* The sentence from the email. */
-.dc-quote {
-  margin: 10px 0 0;
-  padding: 6px 10px;
-  border-left: 3px solid var(--dc-line);
-  color: var(--dc-muted);
-  line-height: 1.45;
-}
-
-.dc-quote mark {
-  padding: 0 2px;
-  border-radius: 3px;
-  background: #fde293;
-  color: var(--dc-ink);
-}
-
 /* The zoomed-in PDF page with the red box. */
 .dc-evidence {
   margin-top: 10px;
@@ -138,6 +169,16 @@
 }
 
 .dc-evidence-page canvas {
+  display: block;
+}
+
+/* A whole page, trimmed and fitted (no exact spot to box): centered. */
+.dc-evidence-window.is-fitted {
+  display: flex;
+  justify-content: center;
+}
+
+.dc-evidence-window.is-fitted canvas {
   display: block;
 }
 

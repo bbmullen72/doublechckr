@@ -5,6 +5,9 @@
   left: 24px;
   bottom: 24px;
   z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   max-width: 360px;
   padding: 12px 16px;
   border-radius: 8px;
@@ -13,4 +16,10 @@
   font: 14px var(--dc-font);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   animation: dc-rise 0.2s ease-out;
+}
+
+/* White checker on the dark toast. */
+.dc-toast .dc-mark {
+  --dc-mark-on: #fff;
+  --dc-mark-off: rgba(255, 255, 255, 0.25);
 }

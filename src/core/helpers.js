@@ -20,4 +20,34 @@
   DC.wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   DC.log = (...args) => console.log("[doublechckr]", ...args);
+
+  // When the extension is reloaded or updated, the copy already running in an
+  // open Gmail tab loses its connection to the extension ("Extension context
+  // invalidated"). Notice that, tell the user once, and quietly stop.
+  DC.isStale = () => !globalThis.chrome?.runtime?.id;
+
+  let staleNoticeShown = false;
+  DC.staleNotice = () => {
+    if (staleNoticeShown) return;
+    staleNoticeShown = true;
+    DC.toast?.("doublechckr was updated. Reload Gmail to keep checking.");
+  };
+
+  // Send a message to the extension's background script. Resolves to null if
+  // this Gmail tab is running an old copy of the extension.
+  DC.send = async (message) => {
+    if (DC.isStale()) {
+      DC.staleNotice();
+      return null;
+    }
+    try {
+      return await chrome.runtime.sendMessage(message);
+    } catch (err) {
+      if (DC.isStale() || /context invalidated/i.test(String(err))) {
+        DC.staleNotice();
+        return null;
+      }
+      throw err;
+    }
+  };
 })();

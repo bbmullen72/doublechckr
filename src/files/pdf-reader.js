@@ -49,13 +49,13 @@
   }
 
   // Draw one page onto a canvas `width` pixels wide. `scale` converts PDF
-  // positions into pixels on that canvas.
-  async function renderPage(file, pageNumber, width) {
+  // positions into pixels on that canvas. `sharpness` adds extra pixels for
+  // high-resolution screens (pass 1 for images sent to Gemini).
+  async function renderPage(file, pageNumber, width, sharpness = window.devicePixelRatio || 1) {
     const pdf = await open(file);
     const page = await pdf.getPage(pageNumber);
     const base = page.getViewport({ scale: 1 });
     const scale = width / base.width;
-    const sharpness = window.devicePixelRatio || 1;
     const viewport = page.getViewport({ scale: scale * sharpness });
 
     const canvas = document.createElement("canvas");

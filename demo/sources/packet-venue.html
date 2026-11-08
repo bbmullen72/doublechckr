@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- Handbook page 15 (picture only): the venue booking confirmation, styled
+     like a scanned form. It's the ONLY place the event dates appear, and it's
+     a picture, so vision RAG has to find it among 20 pages. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="packet-image-page.css">
+  <style>
+    .sheet { border-top: none; background: #f4f1ea; padding-top: 50px; }
+    .form { padding: 36px 40px; background: #fffdf8; border: 2px solid #3b3b3b; transform: rotate(-0.8deg); filter: grayscale(0.4) contrast(1.05); }
+    .form h1 { color: #222; font-size: 26px; letter-spacing: .04em; }
+    .ref { color: #555; margin-bottom: 24px; font-size: 14px; }
+    .row { display: flex; border-bottom: 1px dashed #999; padding: 12px 0; font-size: 18px; }
+    .row b { width: 220px; flex: none; color: #444; font-size: 14px; text-transform: uppercase; letter-spacing: .05em; padding-top: 3px; }
+    .stamp { display: inline-block; margin-top: 30px; padding: 8px 20px; border: 4px solid #1d6b3a; color: #1d6b3a; font: 900 26px Arial, sans-serif; letter-spacing: .1em; transform: rotate(-6deg); }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="form">
+      <h1>VENUE RESERVATION CONFIRMATION</h1>
+      <div class="ref">Reference no. VR-88217 · Campus Event Services</div>
+      <div class="row"><b>Event</b>GullHacks 2026</div>
+      <div class="row"><b>Organization</b>GullHacks Organizing Team</div>
+      <div class="row"><b>Spaces</b>Main hall, Rooms 110–118, Makerspace</div>
+      <div class="row"><b>Dates reserved</b>November 21–23, 2026</div>
+      <div class="row"><b>Access</b>Friday 3:00 PM through Sunday 4:00 PM</div>
+      <div class="row"><b>Overnight use</b>Approved</div>
+      <div class="stamp">CONFIRMED</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- A fake credit card from a made-up credit union, for testing the
+     sensitive-document check. 4111 1111 1111 1111 is a standard test number
+     that can't be charged. Screenshotted to demo/DeMo_Credit_Card.png. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; display: grid; place-items: center; width: 900px; height: 600px; background: #c9c4bb; }
+    .card {
+      position: relative; width: 640px; height: 404px; border-radius: 28px; padding: 40px; box-sizing: border-box;
+      background: linear-gradient(135deg, #5a0a15, #7a0f1d 55%, #a3243a); color: #fff; overflow: hidden;
+      font-family: "Helvetica Neue", Arial, sans-serif; box-shadow: 0 20px 50px rgba(0,0,0,.35); transform: rotate(-4deg);
+    }
+    .card::after {
+      content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%;
+      background: rgba(242, 181, 36, .07);
+    }
+    .bank { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; letter-spacing: .03em; }
+    .bank svg { width: 46px; color: #f2b524; }
+    .chip { width: 72px; height: 54px; margin-top: 36px; border-radius: 10px; background: linear-gradient(135deg, #f7d77a, #c9952a); }
+    .number { margin-top: 28px; font: 600 40px "Courier New", monospace; letter-spacing: .08em; }
+    .row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 22px; font-size: 20px; letter-spacing: .06em; }
+    .label { font-size: 11px; opacity: .8; display: block; }
+    .brand { font: italic 900 44px Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="bank">
+      <svg viewBox="0 0 64 36" aria-hidden="true"><path d="M3 24 C 14 8, 25 8, 32 20 C 39 8, 50 8, 61 24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      GULL COAST CREDIT UNION
+    </div>
+    <div class="chip"></div>
+    <div class="number">4111 1111 1111 1111</div>
+    <div class="row">
+      <div>SAMMY SEAGULL</div>
+      <div><span class="label">VALID THRU</span>12/29</div>
+      <div class="brand">VISA</div>
+    </div>
+  </div>
+</body>
+</html>

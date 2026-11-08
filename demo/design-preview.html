@@ -1,0 +1,248 @@
+<!doctype html>
+<!--
+  Design preview: shows every doublechckr UI piece using the real styles,
+  without needing Gmail. Double-click this file to open it in Chrome.
+  Edit anything in src/styles/ and refresh this page to see the change.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>doublechckr design preview</title>
+  <link rel="stylesheet" href="../src/styles/theme.css">
+  <link rel="stylesheet" href="../src/styles/mark.css">
+  <link rel="stylesheet" href="../src/styles/toast.css">
+  <link rel="stylesheet" href="../src/styles/badge.css">
+  <link rel="stylesheet" href="../src/styles/scan-card.css">
+  <link rel="stylesheet" href="../src/styles/warning.css">
+  <style>
+    body { margin: 0; padding: 32px 24px 120px; background: #f6f8fc; color: #202124; font-family: var(--dc-font); }
+    h1 { margin: 0 0 4px; font-size: 22px; font-weight: 500; }
+    h2 { margin: 36px 0 12px; font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #5f6368; }
+    p.note { margin: 0; color: #5f6368; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+    .big .dc-mark { --dc-mark-size: 40px; gap: 4px; }
+    .big .dc-mark-sq { border-radius: 4px; }
+    .label { font-size: 12px; color: #5f6368; text-align: center; margin-top: 6px; }
+    .fake-send { display: inline-flex; align-items: center; padding: 9px 22px; border-radius: 18px; background: #0b57d0; color: #fff; font-weight: 500; }
+    .toolbar { display: inline-flex; align-items: center; padding: 10px 12px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    /* Show the cards in place instead of floating. */
+    .dc-scan { position: relative; width: 240px; animation: none; }
+    .dc-overlay { position: relative; inset: auto; padding: 0; background: none; justify-content: flex-start; animation: none; }
+    .dc-toast { position: relative; left: auto; bottom: auto; animation: none; }
+    .fake-page { width: 210px; height: 150px; background: #fff; padding: 16px; box-sizing: border-box; font: 9px/1.6 Helvetica, Arial; color: #333; }
+    .fake-page b { font-size: 13px; display: block; margin-bottom: 4px; }
+    .fake-evidence { position: relative; width: 440px; max-width: 100%; height: 170px; background: #fff; font: 12px/1.9 Helvetica, Arial; color: #333; padding: 20px; box-sizing: border-box; }
+    .fake-evidence .dc-evidence-box { left: 14px; top: 76px; width: 150px; height: 26px; }
+
+    /* Hero: big logo and title for screenshots. */
+    .hero {
+      --cell: 20px; /* size of one background checker square */
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: max(100vh, 760px); /* fills the screen: a big, roughly square hero for screenshots */
+      box-sizing: border-box;
+      margin: -32px -24px 12px;
+      padding: 100px 24px 76px;
+      text-align: center;
+      background:
+        repeating-conic-gradient(rgba(32, 33, 36, 0.035) 0 25%, transparent 0 50%) 0 0 / calc(var(--cell) * 2) calc(var(--cell) * 2),
+        #ffffff;
+      border-bottom: 1px solid #e3e6ea;
+    }
+    /* Checkered-flag strip along the top: three rows of squares. */
+    .hero.dc-checker-edge::before {
+      z-index: 2;
+      height: 30px;
+      background: repeating-conic-gradient(rgba(32, 33, 36, 0.16) 0 25%, transparent 0 50%) 0 0 / 20px 20px;
+    }
+    .hero > :not(.hero-wave) { position: relative; z-index: 1; }
+
+    /* The wave: one square per dark background checker. Each pulses briefly,
+       a little later the further right it is (and curved by its row), so a
+       ripple sweeps across every few seconds. */
+    .hero-wave { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .hero-wave span {
+      position: absolute;
+      width: var(--cell);
+      height: var(--cell);
+      background: rgba(32, 33, 36, 0.07);
+      opacity: 0;
+      animation: hero-wave 7s ease-in-out infinite;
+    }
+    @keyframes hero-wave {
+      0% { opacity: 0; }
+      6% { opacity: 1; }
+      14%, 100% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-wave { display: none; }
+    }
+    .hero-logo { display: inline-flex; align-items: center; gap: 22px; }
+    .hero .dc-mark { --dc-mark-size: 84px; gap: 7px; animation: none; }
+    .hero .dc-mark-sq { border-radius: 9px; }
+    .hero-name { font-size: clamp(48px, 9vw, 92px); font-weight: 600; letter-spacing: -0.03em; color: var(--dc-ink); line-height: 1; }
+    .hero-tagline { max-width: 760px; margin: 30px auto 10px; font-size: clamp(20px, 2.6vw, 28px); line-height: 1.35; color: var(--dc-ink); }
+    .hero-tagline em { font-style: normal; color: var(--dc-green); font-weight: 600; }
+    .hero-sub { max-width: 620px; margin: 0 auto; font-size: 16px; color: #5f6368; line-height: 1.5; }
+    .hero-states { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .hero-states .dc-badge { margin: 0; font-size: 14px; padding: 7px 14px 7px 10px; }
+    .hero-states .dc-badge .dc-mark { --dc-mark-size: 14px; gap: 1.5px; }
+    .hero-states .dc-badge .dc-mark-sq { border-radius: 1.5px; }
+  </style>
+</head>
+<body>
+  <header class="hero dc-checker-edge">
+    <div class="hero-wave" id="hero-wave" aria-hidden="true"></div>
+    <div class="hero-logo">
+      <span data-mark="watching"></span>
+      <span class="hero-name">doublechckr</span>
+    </div>
+    <p class="hero-tagline">Gmail checks that you attached something.<br>We check that you attached <em>the right thing</em>.</p>
+    <p class="hero-sub">A Chrome extension that reads your attachment the moment you add it and checks it against your email before you hit Send.</p>
+    <div class="hero-states" id="hero-states"></div>
+  </header>
+
+  <p class="note">Design preview: uses the real stylesheets from <code>src/styles/</code>. Edit them and refresh.</p>
+
+  <h2>The mark</h2>
+  <div class="row big" id="marks"></div>
+
+  <h2>Badge next to Send</h2>
+  <div class="row" id="badges"></div>
+
+  <h2>Scanning card</h2>
+  <div class="row">
+    <div class="dc-scan dc-checker-edge" id="scan-checking">
+      <div class="dc-scan-header"><span data-mark="checking"></span><span>doublechckr is reading</span></div>
+      <div class="dc-scan-file">DeMo_Sponsor_Packet.pdf</div>
+      <div class="dc-scan-stage">
+        <div class="fake-page"><b>GULLHACKS 2026</b>Sponsor Packet<br>Salisbury University's student hackathon<br>Prepared for Chesapeake Software</div>
+        <div class="dc-scan-laser"></div>
+      </div>
+      <ol class="dc-scan-steps">
+        <li class="dc-scan-step is-done">Rendered page 1</li>
+        <li class="dc-scan-step is-done">Read 8 pages</li>
+        <li class="dc-scan-step is-done">Indexed 8 pages as images · 0.9s</li>
+        <li class="dc-scan-step is-done">Matched 2 claims to pages</li>
+      </ol>
+      <div class="dc-scan-relevance">
+        <div class="dc-scan-relevance-label">Claim → page match</div>
+        <div class="dc-scan-bars">
+          <span class="dc-scan-bar is-best" style="height:70%"></span><span class="dc-scan-bar" style="height:20%"></span>
+          <span class="dc-scan-bar" style="height:28%"></span><span class="dc-scan-bar" style="height:42%"></span>
+          <span class="dc-scan-bar" style="height:55%"></span><span class="dc-scan-bar is-best" style="height:100%"></span>
+          <span class="dc-scan-bar" style="height:48%"></span><span class="dc-scan-bar" style="height:22%"></span>
+        </div>
+        <ul class="dc-scan-claims">
+          <li><span class="dc-scan-claim">“Attached is our sponsor packet.”</span><span class="dc-scan-claim-page">p.1</span></li>
+          <li><span class="dc-scan-claim">“The event budget comes to $1…”</span><span class="dc-scan-claim-page">p.6</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dc-scan dc-checker-edge" data-result="verified">
+      <div class="dc-scan-header"><span data-mark="verified"></span><span>Clear to send</span></div>
+      <div class="dc-scan-file">DeMo_Pizza_Invoice.pdf</div>
+      <div class="dc-scan-stage"><div class="fake-page"><b>INVOICE #1042</b>Billed to: GullHacks<br>Pizzas (120) ... $2,000<br>Delivery ... $400<br>Total Due: $2,400</div></div>
+      <ol class="dc-scan-steps">
+        <li class="dc-scan-step is-done">Rendered page 1</li>
+        <li class="dc-scan-step is-done">Read 1 page</li>
+        <li class="dc-scan-step is-done">Mapped 7 text blocks</li>
+        <li class="dc-scan-step is-done">Everything matches</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Warning before sending</h2>
+  <div class="dc-overlay">
+    <div class="dc-box dc-checker-edge">
+      <div class="dc-brand"><span class="dc-wordmark"><span data-mark="issues"></span><span class="dc-wordmark-text">doublechckr</span></span></div>
+      <h2 class="dc-title dc-title-single">Amount doesn't match</h2>
+      <div class="dc-item-body">
+        <div class="dc-compare">
+          <div class="dc-compare-cell"><div class="dc-compare-label">Your email</div><div class="dc-compare-value">$25,000</div></div>
+          <div class="dc-compare-cell is-doc"><div class="dc-compare-label">DeMo_Sponsorship_Proposal.pdf</div><div class="dc-compare-value">$18,500</div></div>
+        </div>
+        <div class="dc-evidence">
+          <div class="dc-evidence-window" style="height:170px">
+            <div class="fake-evidence">Prepared for: Chesapeake Software<br>Event date: November 14<br>Total Budget: $18,500<div class="dc-evidence-box"></div></div>
+          </div>
+          <div class="dc-evidence-caption">DeMo_Sponsorship_Proposal.pdf · Page 1</div>
+        </div>
+      </div>
+      <div class="dc-actions"><button class="dc-btn">Send anyway</button><button class="dc-btn dc-btn-primary">Review email</button></div>
+    </div>
+  </div>
+
+  <h2>Toast</h2>
+  <div class="dc-toast"><span data-mark="watching"></span><span>doublechckr saw hacker-guide.docx (only PDFs are checked for now)</span></div>
+
+  <script>
+    function mark(state) {
+      const el = document.createElement("span");
+      el.className = "dc-mark";
+      el.dataset.state = state;
+      for (let i = 0; i < 4; i++) el.append(Object.assign(document.createElement("span"), { className: "dc-mark-sq" }));
+      return el;
+    }
+    // Fill in placeholders.
+    document.querySelectorAll("[data-mark]").forEach((p) => p.replaceWith(mark(p.dataset.mark)));
+
+    // Big marks.
+    for (const s of ["watching", "checking", "verified", "issues", "warning"]) {
+      const cell = document.createElement("div");
+      cell.append(mark(s), Object.assign(document.createElement("div"), { className: "label", textContent: s }));
+      document.getElementById("marks").append(cell);
+    }
+
+    // Badges.
+    const labels = { watching: "doublechckr", checking: "Checking…", verified: "Verified", issues: "2 issues" };
+    for (const [s, text] of Object.entries(labels)) {
+      const bar = document.createElement("div");
+      bar.className = "toolbar";
+      const send = Object.assign(document.createElement("span"), { className: "fake-send" + (s === "issues" ? " dc-send-blocked" : ""), textContent: "Send" });
+      const badge = Object.assign(document.createElement("button"), { className: "dc-badge" });
+      badge.dataset.state = s;
+      badge.append(mark(s), Object.assign(document.createElement("span"), { className: "dc-badge-label", textContent: text }));
+      bar.append(send, badge);
+      document.getElementById("badges").append(bar);
+    }
+
+    // Hero wave: a square on every dark background checker, each pulsing with
+    // a delay based on its column (left to right) plus a curve by row.
+    function buildWave() {
+      const wave = document.getElementById("hero-wave");
+      const cell = 20;
+      const cols = Math.ceil(wave.offsetWidth / cell);
+      const rows = Math.ceil(wave.offsetHeight / cell);
+      const squares = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if ((r + c) % 2) continue; // only the dark squares of the checkerboard
+          const delay = (c / cols) * 2.2 + Math.sin(r / 3) * 0.35;
+          squares.push(`<span style="left:${c * cell}px;top:${r * cell}px;animation-delay:${delay.toFixed(2)}s"></span>`);
+        }
+      }
+      wave.innerHTML = squares.join("");
+    }
+    buildWave();
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildWave, 200);
+    });
+
+    // Hero: the three things it checks for, as badges.
+    for (const [s, text] of [["checking", "Reads every page, even pictures"], ["issues", "Catches the wrong attachment"], ["verified", "Clear to send"]]) {
+      const badge = Object.assign(document.createElement("span"), { className: "dc-badge" });
+      badge.dataset.state = s;
+      badge.append(mark(s), Object.assign(document.createElement("span"), { textContent: text }));
+      document.getElementById("hero-states").append(badge);
+    }
+  </script>
+</body>
+</html>

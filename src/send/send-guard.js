@@ -13,7 +13,17 @@
     if (Date.now() < state.bypassUntil) return; // user chose "Send anyway"
 
     const status = DC.draftStatus(draft);
-    if (status.kind !== "issues" && status.kind !== "checking") return; // all good, let Gmail send
+    if (status.kind !== "issues" && status.kind !== "checking") {
+      // All good, let Gmail send. Log what we saw, to help debug missed problems.
+      if (e.type === "click" || e.type === "keydown") {
+        DC.log("send allowed", {
+          status: status.kind,
+          ...DC.gmail.readDraft(draft),
+          attachments: DC.drafts.get(draft).files.map((f) => f.name),
+        });
+      }
+      return;
+    }
 
     // Stop Gmail from seeing this click or keypress.
     e.preventDefault();

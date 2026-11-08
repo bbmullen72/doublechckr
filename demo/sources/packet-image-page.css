@@ -1,0 +1,30 @@
+/* Shared look for the picture-only pages of the sponsor packet. Each one is
+   screenshotted to a PNG, so none of its words end up as text in the PDF. */
+
+body {
+  margin: 0;
+  width: 816px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #1f2328;
+  background: #fff;
+}
+
+.sheet {
+  box-sizing: border-box;
+  width: 816px;
+  min-height: 1000px;
+  padding: 60px 70px;
+  border-top: 10px solid #7a0f1d;
+}
+
+h1 {
+  margin: 0 0 6px;
+  color: #7a0f1d;
+  font-size: 30px;
+}
+
+.sub {
+  margin: 0 0 30px;
+  color: #5d6470;
+  font-size: 15px;
+}

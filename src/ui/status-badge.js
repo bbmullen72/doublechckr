@@ -6,14 +6,14 @@
   const badges = new WeakMap(); // draft -> badge element
 
   const LOOK = {
-    watching: { icon: "", label: () => "doublechckr", tip: "doublechckr is watching this draft" },
-    checking: { icon: "", label: () => "Checking…", tip: "Reading your attachment" },
-    verified: { icon: "✓", label: () => "Verified", tip: "Your attachment matches your email" },
-    issues: {
-      icon: "!",
-      label: (s) => DC.plural(s.issues.length, "issue"),
-      tip: "Click to see what doesn't match",
+    watching: { label: () => "doublechckr", tip: "doublechckr is watching this draft" },
+    checking: { label: () => "Checking…", tip: "Reading your attachment" },
+    verified: { label: () => "Verified", tip: "doublechckr checked your attachment against your email" },
+    clear: {
+      label: () => "No issues found",
+      tip: "The built-in checks found nothing. The full AI check hasn't run yet (is it set up?)",
     },
+    issues: { label: (s) => DC.plural(s.issues.length, "issue"), tip: "Click to see what doesn't match" },
   };
 
   function ensureBadge(draft) {
@@ -25,7 +25,7 @@
 
     const badge = DC.el("button", "dc-badge");
     badge.type = "button";
-    badge.append(DC.el("span", "dc-badge-icon"), DC.el("span", "dc-badge-label"));
+    badge.append(DC.mark(), DC.el("span", "dc-badge-label"));
     badge.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -50,7 +50,7 @@
     if (badge.dataset.state !== status.kind || badge.dataset.label !== label) {
       badge.dataset.state = status.kind;
       badge.dataset.label = label;
-      badge.querySelector(".dc-badge-icon").textContent = look.icon;
+      badge.querySelector(".dc-mark").dataset.state = status.kind;
       badge.querySelector(".dc-badge-label").textContent = label;
       badge.title = look.tip;
     }

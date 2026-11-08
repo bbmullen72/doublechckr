@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Wraps the invoice screenshot in a PDF page, tilted and slightly grey like
+     a real scan. The PDF ends up with only a picture and no text. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    @page { size: Letter; margin: 0; }
+    body { margin: 0; }
+    .page {
+      display: grid;
+      place-items: start center;
+      width: 8.5in;
+      height: 11in;
+      padding-top: 0.4in;
+      box-sizing: border-box;
+      background: #f1efe9;
+    }
+    img {
+      width: 7.6in;
+      transform: rotate(1.2deg);
+      filter: grayscale(1) contrast(1.15) brightness(0.97);
+      box-shadow: 0 0 0 1px #d8d4ca;
+    }
+  </style>
+</head>
+<body><div class="page"><img src="scanned-invoice.png" alt=""></div></body>
+</html>

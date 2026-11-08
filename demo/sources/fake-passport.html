@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- A made-up passport from a made-up country, marked SPECIMEN, for testing
+     the sensitive-document check. The holder is Sammy Seagull.
+     Screenshotted to demo/DeMo_Passport.png. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; display: grid; place-items: center; width: 1000px; height: 680px; background: #bdb7ab; }
+    .passport {
+      position: relative; width: 860px; height: 560px; box-sizing: border-box; padding: 34px 40px;
+      border-radius: 14px; background: linear-gradient(160deg, #f6f0e2, #eadfc6); color: #2b2b2b;
+      font-family: "Helvetica Neue", Arial, sans-serif; box-shadow: 0 18px 40px rgba(0,0,0,.3);
+      transform: rotate(2deg); overflow: hidden;
+    }
+    .top { display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; letter-spacing: .08em; color: #7a0f1d; }
+    .body { display: flex; gap: 34px; margin-top: 26px; }
+    .photo { display: grid; place-items: center; flex: none; width: 210px; height: 260px; border-radius: 6px; background: linear-gradient(#a9c8e6, #e6f0f8); }
+    .photo svg { width: 150px; color: #4a4f57; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 30px; font-size: 18px; }
+    .fields .label { display: block; font-size: 11px; color: #6b6b6b; letter-spacing: .06em; }
+    .mrz { position: absolute; left: 40px; right: 40px; bottom: 30px; font: 600 22px/1.5 "Courier New", monospace; letter-spacing: .12em; }
+    .specimen { position: absolute; top: 210px; left: 220px; transform: rotate(-18deg); font: 900 90px Arial, sans-serif; color: rgba(122, 15, 29, .25); letter-spacing: .1em; }
+  </style>
+</head>
+<body>
+  <div class="passport">
+    <div class="top"><span>REPUBLIC OF DELMARVA</span><span>PASSPORT</span></div>
+    <div class="body">
+      <div class="photo">
+        <!-- Sammy: a simple gull drawing -->
+        <svg viewBox="0 0 120 100" aria-hidden="true">
+          <ellipse cx="60" cy="62" rx="34" ry="26" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <circle cx="60" cy="32" r="20" fill="#fff" stroke="currentColor" stroke-width="3"/>
+          <circle cx="66" cy="28" r="3" fill="currentColor"/>
+          <path d="M78 33 L98 37 L78 41 Z" fill="#f2b524" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M30 60 C 40 48, 55 50, 62 62" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="fields">
+        <div><span class="label">TYPE</span>P</div>
+        <div><span class="label">PASSPORT NO.</span>D0482193</div>
+        <div><span class="label">SURNAME</span>SEAGULL</div>
+        <div><span class="label">GIVEN NAMES</span>SAMMY</div>
+        <div><span class="label">NATIONALITY</span>DELMARVAN</div>
+        <div><span class="label">DATE OF BIRTH</span>14 MAR 1998</div>
+        <div><span class="label">DATE OF ISSUE</span>02 JUN 2024</div>
+        <div><span class="label">DATE OF EXPIRY</span>01 JUN 2034</div>
+      </div>
+    </div>
+    <div class="mrz">P&lt;DMVSEAGULL&lt;&lt;SAMMY&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>D0482193&lt;7DMV9803146M3406019&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04</div>
+    <div class="specimen">SPECIMEN</div>
+  </div>
+</body>
+</html>

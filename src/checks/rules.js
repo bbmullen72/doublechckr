@@ -4,6 +4,7 @@
 // These are simple built-in rules. Gemini will add smarter checks later.
 //
 // A problem looks like:
+//   type     what kind: missing, version, amount, date, name, ...
 //   title    short name, e.g. "Amount doesn't match"
 //   detail   one sentence explaining it
 //   compare  optional { email, doc } values to show side by side
@@ -23,6 +24,7 @@
     if (!MENTIONS_ATTACHMENT.test(ctx.text) || ctx.hasAttachment) return [];
     return [
       {
+        type: "missing",
         title: "Missing attachment",
         detail: "Your email mentions an attachment, but nothing is attached.",
       },
@@ -37,6 +39,7 @@
         if (!word) continue;
         return [
           {
+            type: "version",
             title: "Possible outdated document",
             detail: `Your email says "final", but page ${page.number} of ${file.name} is marked "DRAFT".`,
             evidence: { file, page, word, ...quoteFromEmail(ctx.text, SAYS_FINAL) },
@@ -65,6 +68,7 @@
     for (const raw of new Set(emailAmounts)) {
       if (docValues.has(toNumber(raw))) continue; // the PDF mentions this amount somewhere
       problems.push({
+        type: "amount",
         title: "Amount doesn't match",
         detail: `Your email says ${raw}, but ${best.file.name} says ${best.raw}.`,
         compare: { email: raw, doc: best.raw },
@@ -74,6 +78,48 @@
           word: best.word,
           ...quoteFromEmail(ctx.text, new RegExp(escapeRegex(raw).replace("\\$", "\\$\\s?"))),
         },
+      });
+    }
+    return problems;
+  }
+
+  // Card numbers, SSNs and secret keys typed in the email or inside an
+  // attachment's text. One warning for the email, one per attachment.
+  function sensitiveInfo(ctx) {
+    const problems = [];
+    const describe = (finds) => {
+      const kinds = [...new Set(finds.map((f) => f.label))];
+      const list = kinds.length === 1 ? kinds[0] : `${kinds.slice(0, -1).join(", ")} and ${kinds[kinds.length - 1]}`;
+      const examples = finds.slice(0, 3).map((f) => f.masked).join(", ");
+      return { list, examples };
+    };
+
+    const inEmail = DC.secrets.find(ctx.text);
+    if (inEmail.length) {
+      const { list, examples } = describe(inEmail);
+      problems.push({
+        type: "secret",
+        title: "Sensitive info in your email",
+        detail: `Your email contains ${list} (${examples}). Email isn't a secure way to send this: copies stay in both inboxes and can be forwarded or leaked.`,
+      });
+    }
+
+    for (const file of ctx.pdfs) {
+      let first = null;
+      const finds = [];
+      for (const page of file.pages) {
+        for (const f of DC.secrets.find(page.text)) {
+          finds.push(f);
+          first ||= { page, word: DC.verify.locate(page, f.raw) };
+        }
+      }
+      if (!finds.length) continue;
+      const { list, examples } = describe(finds);
+      problems.push({
+        type: "secret",
+        title: "Sensitive info in your attachment",
+        detail: `${file.name} contains ${list} (${examples}). Email isn't a secure way to send this.`,
+        evidence: { file, page: first.page, word: first.word },
       });
     }
     return problems;
@@ -115,8 +161,14 @@
     return { emailQuote: text.slice(start, end).trim().slice(0, 200), emailMatch: m[0] };
   }
 
+  // Same, but for exact words (ignoring capitals and extra spaces).
+  function quoteForString(text, words) {
+    if (!words) return {};
+    return quoteFromEmail(text, new RegExp(escapeRegex(words).replace(/\s+/g, "\\s+"), "i"));
+  }
+
   const toNumber = (raw) => Number(raw.replace(/[^\d.]/g, ""));
   const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  DC.rules = { missingAttachment, draftMarkedFinal, amountMismatch };
+  DC.rules = { missingAttachment, draftMarkedFinal, amountMismatch, sensitiveInfo, quoteForString };
 })();

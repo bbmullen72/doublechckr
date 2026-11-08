@@ -1,0 +1,39 @@
+<!doctype html>
+<!-- Sponsor packet page 6 (picture only): the event budget, made to look like
+     a spreadsheet screenshot. The total is $14,200. Because it's a picture,
+     the PDF has no text for it. Vision RAG has to find this page. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="packet-image-page.css">
+  <style>
+    .sheet { padding-top: 40px; }
+    .window { border: 1px solid #c8ccd1; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.12); }
+    .bar { padding: 10px 14px; background: #1d6b3a; color: #fff; font-size: 14px; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: 17px; }
+    th, td { padding: 11px 14px; border: 1px solid #e1e4e8; }
+    th { background: #f3f4f6; text-align: left; color: #57606a; font-size: 13px; }
+    td.num { text-align: right; font-family: "Courier New", monospace; }
+    tr.total td { font-weight: 700; background: #fff6d6; }
+    .rowhead { width: 34px; text-align: center; color: #8c959f; background: #f3f4f6; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <h1>Event Budget</h1>
+    <p class="sub">Where sponsor money goes</p>
+    <div class="window">
+      <div class="bar">GullHacks_2026_Budget.xlsx</div>
+      <table>
+        <tr><th class="rowhead"></th><th>Category</th><th>Amount</th></tr>
+        <tr><td class="rowhead">1</td><td>Food (catering + midnight snacks)</td><td class="num">$6,850</td></tr>
+        <tr><td class="rowhead">2</td><td>T-shirts and hoodies</td><td class="num">$3,150</td></tr>
+        <tr><td class="rowhead">3</td><td>Prizes</td><td class="num">$2,400</td></tr>
+        <tr><td class="rowhead">4</td><td>Venue setup and Wi-Fi</td><td class="num">$1,200</td></tr>
+        <tr><td class="rowhead">5</td><td>Stickers and swag</td><td class="num">$600</td></tr>
+        <tr class="total"><td class="rowhead">6</td><td>TOTAL EVENT BUDGET</td><td class="num">$14,200</td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>doublechckr settings</title>
+  <link rel="stylesheet" href="../src/styles/theme.css">
+  <link rel="stylesheet" href="../src/styles/mark.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main class="card dc-checker-edge">
+    <header class="brand">
+      <span class="dc-wordmark">
+        <span class="dc-mark" data-state="watching" aria-hidden="true"><span class="dc-mark-sq"></span><span class="dc-mark-sq"></span><span class="dc-mark-sq"></span><span class="dc-mark-sq"></span></span>
+        <span class="dc-wordmark-text">doublechckr</span>
+      </span>
+    </header>
+
+    <h1>Connect Gemini</h1>
+    <p class="lead">
+      doublechckr uses Gemini to read your attachments (text and page images) and compare them with your email.
+    </p>
+
+    <ol class="steps">
+      <li>Go to <strong>aistudio.google.com</strong> and sign in.</li>
+      <li>Click <strong>Get API key</strong>, then <strong>Create API key</strong>.</li>
+      <li>Paste it below and click <strong>Save &amp; test</strong>.</li>
+    </ol>
+
+    <form id="form">
+      <label for="key">Gemini API key</label>
+      <div class="key-row">
+        <input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your key here">
+        <button type="button" id="toggle" class="btn btn-quiet">Show</button>
+      </div>
+
+      <label for="model">Model</label>
+      <select id="model"></select>
+      <p class="hint">Pick a "flash" model for speed. The list fills in after you save a working key.</p>
+
+      <div class="actions">
+        <button type="submit" id="save" class="btn btn-primary">Save &amp; test</button>
+        <button type="button" id="remove" class="btn btn-quiet">Remove key</button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="privacy">
+      Your key is saved only in this copy of Chrome. It isn't in the extension's code and never goes to GitHub.
+      When you attach a PDF, its text, images of its first pages, and your email are sent to Google's Gemini API to be checked.
+    </p>
+  </main>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

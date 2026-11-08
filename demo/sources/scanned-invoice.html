@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- A t-shirt invoice that gets screenshotted to an image, then wrapped in a
+     PDF, so the PDF has no text at all, like a scan of paper. Only Gemini's
+     vision can read the $3,150 total. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="doc.css">
+  <style>
+    body { background: #fff; }
+    .page { height: auto; min-height: 9in; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="letterhead">
+      <div class="brand">
+        <div class="company">SEA GULL PRINT SHOP<small>Custom apparel · Salisbury, Maryland</small></div>
+      </div>
+      <div class="doc-meta">Invoice #1057<br>Issued October 14</div>
+    </div>
+
+    <h1>Invoice</h1>
+    <p>Billed to: GullHacks Organizing Team, Salisbury University</p>
+
+    <table>
+      <tr><th>Description</th><th class="num">Qty</th><th class="num">Amount</th></tr>
+      <tr><td>GullHacks 2026 t-shirts, maroon, gold print</td><td class="num">250</td><td class="num">$2,500</td></tr>
+      <tr><td>Organizer hoodies</td><td class="num">20</td><td class="num">$500</td></tr>
+      <tr><td>Rush delivery</td><td class="num">—</td><td class="num">$150</td></tr>
+      <tr class="total"><td>Total Due</td><td></td><td class="num">$3,150</td></tr>
+    </table>
+
+    <p style="margin-top:24px">Payment due within 30 days. Go Gulls!</p>
+    <p style="margin-top:60px; font-size:10px; color:#8c959f">Demo document for doublechckr · Not an official Salisbury University document</p>
+  </div>
+</body>
+</html>

@@ -1,8 +1,28 @@
 {
   "manifest_version": 3,
   "name": "doublechckr",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Double-checks your Gmail attachments before you hit Send.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "doublechckr settings",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "options_page": "options/options.html",
+  "background": {
+    "service_worker": "src/background/index.js",
+    "type": "module"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://generativelanguage.googleapis.com/*"],
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*"],
@@ -12,9 +32,16 @@
         "src/core/helpers.js",
         "src/core/gmail.js",
         "src/core/drafts.js",
-        "src/pdf/pdf-reader.js",
+        "src/files/pdf-reader.js",
+        "src/files/image-reader.js",
+        "src/files/reader.js",
+        "src/checks/secrets.js",
         "src/checks/rules.js",
+        "src/ai/verify.js",
+        "src/ai/page-index.js",
+        "src/ai/gemini-client.js",
         "src/checks/check-draft.js",
+        "src/ui/mark.js",
         "src/ui/toast.js",
         "src/ui/status-badge.js",
         "src/ui/scan-card.js",
@@ -25,6 +52,7 @@
       ],
       "css": [
         "src/styles/theme.css",
+        "src/styles/mark.css",
         "src/styles/toast.css",
         "src/styles/badge.css",
         "src/styles/scan-card.css",

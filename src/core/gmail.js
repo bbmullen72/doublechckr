@@ -6,7 +6,9 @@
   const DC = globalThis.DC;
 
   const SEND_BUTTON = 'div[role="button"][data-tooltip^="Send"]';
-  const MESSAGE_BODY = 'div[contenteditable="true"][role="textbox"]';
+  // Gmail marks the real message body with g_editable. Other text boxes in
+  // the draft (like Gmail's "Describe your message" AI box) don't have it.
+  const MESSAGE_BODY = 'div[contenteditable="true"][g_editable="true"], div[contenteditable="true"][aria-label="Message Body"]';
   const SUBJECT = 'input[name="subjectbox"]';
 
   // Find the draft window an element belongs to: the closest parent that

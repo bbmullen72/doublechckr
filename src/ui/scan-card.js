@@ -10,18 +10,20 @@
   // lets people watching the demo follow along. Set to 0 to turn it off.
   const PACE_MS = 350;
 
-  const RESULT_TITLES = {
-    verified: "Looks good",
-    issues: "Found possible problems",
-    scanned: "Looks scanned",
-    error: "Couldn't read this file",
+  const RESULTS = {
+    verified: { title: "Clear to send", mark: "verified" },
+    clear: { title: "No issues found", mark: "clear" },
+    issues: { title: "Found possible problems", mark: "issues" },
+    scanned: { title: "Needs the AI check to read", mark: "warning" },
+    error: { title: "Couldn't read this file", mark: "warning" },
   };
 
   function open(draft, fileName) {
-    const card = DC.el("div", "dc-scan");
+    const card = DC.el("div", "dc-scan dc-checker-edge");
+    const mark = DC.mark("checking");
     const title = DC.el("span", null, "doublechckr is reading");
     const header = DC.el("div", "dc-scan-header");
-    header.append(DC.el("span", "dc-scan-pulse"), title);
+    header.append(mark, title);
 
     const stage = DC.el("div", "dc-scan-stage");
     stage.append(DC.el("div", "dc-scan-laser"));
@@ -52,15 +54,52 @@
             item.classList.add("is-failed");
             if (text) item.textContent = text;
           },
+          skip(text) {
+            item.classList.add("is-skipped");
+            if (text) item.textContent = text;
+          },
         };
       },
 
       pace: () => DC.wait(PACE_MS),
 
+      // From the vision index: a small bar per page (taller = closer to
+      // something the email says), with every page a claim matched
+      // highlighted, and a short "claim → page" list under it.
+      setRelevance({ claims, pages }) {
+        const scores = pages.map((p) => p.score);
+        const low = Math.min(...scores);
+        const high = Math.max(...scores);
+        const matched = new Set(claims.map((c) => c.page));
+
+        const chart = DC.el("div", "dc-scan-relevance");
+        const bars = DC.el("div", "dc-scan-bars");
+        for (const { page, score } of [...pages].sort((a, b) => a.page - b.page)) {
+          const bar = DC.el("span", `dc-scan-bar${matched.has(page) ? " is-best" : ""}`);
+          const height = high > low ? 20 + (80 * (score - low)) / (high - low) : 60;
+          bar.style.height = `${height}%`;
+          bar.title = `Page ${page}: similarity ${score.toFixed(3)}`;
+          bars.append(bar);
+        }
+
+        const list = DC.el("ul", "dc-scan-claims");
+        for (const claim of claims.slice(0, 3)) {
+          const row = DC.el("li");
+          const short = claim.text.length > 30 ? `${claim.text.slice(0, 29)}…` : claim.text;
+          row.append(DC.el("span", "dc-scan-claim", `“${short}”`), DC.el("span", "dc-scan-claim-page", `p.${claim.page}`));
+          list.append(row);
+        }
+        if (claims.length > 3) list.append(DC.el("li", "dc-scan-claim-more", `+${claims.length - 3} more`));
+
+        chart.append(DC.el("div", "dc-scan-relevance-label", "Claim → page match"), bars, list);
+        steps.after(chart);
+      },
+
       // Show the result, then slide the card away.
       async finish(result) {
         card.dataset.result = result;
-        title.textContent = RESULT_TITLES[result];
+        title.textContent = RESULTS[result].title;
+        mark.dataset.state = RESULTS[result].mark;
         await DC.wait(1600);
         card.classList.add("is-leaving");
         setTimeout(() => card.remove(), 300);

@@ -1,0 +1,87 @@
+/* The 2×2 checker mark. Squares 1 and 4 are one diagonal, 2 and 3 the other. */
+
+.dc-mark {
+  --dc-mark-size: 14px;
+  --dc-mark-on: var(--dc-ink);
+  --dc-mark-off: rgba(32, 33, 36, 0.14);
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5px;
+  flex: none;
+  width: var(--dc-mark-size);
+  height: var(--dc-mark-size);
+}
+
+.dc-mark-sq {
+  border-radius: 1.5px;
+  background: var(--dc-mark-off);
+  transition: background-color 0.25s;
+}
+
+.dc-mark-sq:nth-child(1),
+.dc-mark-sq:nth-child(4) {
+  background: var(--dc-mark-on);
+}
+
+/* Watching: breathes gently. */
+.dc-mark[data-state="watching"] {
+  animation: dc-mark-breathe 2.8s ease-in-out infinite;
+}
+
+/* Checking: the diagonals take turns. */
+.dc-mark[data-state="checking"] {
+  --dc-mark-on: var(--dc-blue);
+  --dc-mark-off: rgba(26, 115, 232, 0.15);
+}
+.dc-mark[data-state="checking"] .dc-mark-sq {
+  animation: dc-mark-flip 0.9s ease-in-out infinite;
+}
+.dc-mark[data-state="checking"] .dc-mark-sq:nth-child(2),
+.dc-mark[data-state="checking"] .dc-mark-sq:nth-child(3) {
+  animation-delay: -0.45s;
+}
+
+/* Clear (built-in checks only): the plain mark, holding still. */
+
+/* Results: a colored checkered flag that pops in square by square. */
+.dc-mark[data-state="verified"] {
+  --dc-mark-on: var(--dc-green);
+  --dc-mark-off: rgba(24, 128, 56, 0.3);
+}
+.dc-mark[data-state="issues"] {
+  --dc-mark-on: var(--dc-red);
+  --dc-mark-off: rgba(217, 48, 37, 0.3);
+}
+.dc-mark[data-state="warning"] {
+  --dc-mark-on: var(--dc-amber);
+  --dc-mark-off: rgba(176, 96, 0, 0.3);
+}
+.dc-mark[data-state="verified"] .dc-mark-sq,
+.dc-mark[data-state="issues"] .dc-mark-sq,
+.dc-mark[data-state="warning"] .dc-mark-sq {
+  animation: dc-pop 0.3s ease-out backwards;
+}
+.dc-mark:is([data-state="verified"], [data-state="issues"], [data-state="warning"]) .dc-mark-sq:nth-child(2) { animation-delay: 0.05s; }
+.dc-mark:is([data-state="verified"], [data-state="issues"], [data-state="warning"]) .dc-mark-sq:nth-child(3) { animation-delay: 0.1s; }
+.dc-mark:is([data-state="verified"], [data-state="issues"], [data-state="warning"]) .dc-mark-sq:nth-child(4) { animation-delay: 0.15s; }
+
+@keyframes dc-mark-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes dc-mark-flip {
+  0%, 40% { background: var(--dc-mark-on); transform: scale(1); }
+  50%, 90% { background: var(--dc-mark-off); transform: scale(0.75); }
+  100% { background: var(--dc-mark-on); transform: scale(1); }
+}
+
+/* Mark + name. */
+.dc-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--dc-ink);
+  font: 600 13px/1 var(--dc-font);
+  letter-spacing: -0.01em;
+}
